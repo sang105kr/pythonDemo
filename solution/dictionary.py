@@ -24,14 +24,27 @@ def dectionary_open() :
   except FileNotFoundError:
       return {}
 
-def exist_word_in_dictionary(dic,word):
+def dupchk_word_in_dictionary(dic,word):
   '''
-    딕셔너리에 단어가 존재하는지 체크하는 함수
+    딕셔너리에 단어 중복 체크하는 함수
+    중복이면 DictionaryException 예외 발생
   '''
   if word not in dic:
     return True
   else :
     raise DictionaryException(f'단어 {word} 는 이미 등록되었습니다!')
+
+def exist_word_in_dictionary(dic,word):
+  '''
+    딕셔너리에 단어가 존재하는지 체크하는 함수
+    존재하면 True 그렇지 않으면 DictionaryException 예외 발생
+  '''
+  if word in dic:
+    return True
+  else :
+    raise DictionaryException(f'{word} 단어를 찾을 수 없습니다!')
+
+
 
 MAX_WORD = 5  # 저장할 단어 최대 갯수
 dictionary = dectionary_open()  # 사전에서 단어정보 가져오기
@@ -52,20 +65,55 @@ while not stop :
           try:
             # 단어입력
             word = input('단어입력 > ').lower()
-            # 체크 2) 단어 유무 체크
-            exist_word_in_dictionary(dictionary,word)
+            # 체크 2) 단어 중복 체크
+            dupchk_word_in_dictionary(dictionary,word)
           except DictionaryException as e:
             print(e)
           else:
             meaning = input('의미입력 > ')
             dictionary[word] = meaning
+            print(f'{word} 단어를 등록하였습니다!')
             break;
       case '2' :  # 검색
-        pass
+        while True:
+          try:
+            # 단어입력
+            word = input('단어입력 > ').lower()
+            # 단어 존재여부 체크
+            exist_word_in_dictionary(dictionary, word)
+          except DictionaryException as e:
+            print(e)
+          else:
+            print(f'{word} : {dictionary[word]}')
+            break;
       case '3' :  # 수정
-        pass
+        while True:
+          try:
+            # 단어입력
+            word = input('단어입력 > ').lower()
+            # 단어 존재여부 체크
+            exist_word_in_dictionary(dictionary, word)
+          except DictionaryException as e:
+            print(e)
+          else:
+            meaning = input('의미입력 > ')
+            dictionary[word] = meaning
+            print(f'{word} 단어를 {meaning}로 수정하였습니다.')
+            break;
       case '4' :  # 삭제
-        pass
+        while True:
+          try:
+            # 단어입력
+            word = input('단어입력 > ').lower()
+            # 단어 존재여부 체크
+            exist_word_in_dictionary(dictionary, word)
+          except DictionaryException as e:
+            print(e)
+          else:
+            if input('삭제하시겠습니까?(Y/y)').lower() == 'y' :
+              del dictionary[word]
+              print(f'{word} 단어를 삭제하였습니다.')
+              break;
       case '5' :  # 목록
         if not dictionary :
           print('등록된 단어가 없습니다.')
