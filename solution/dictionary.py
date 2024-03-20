@@ -117,10 +117,31 @@ while not stop :
       case '5' :  # 목록
         if not dictionary :
           print('등록된 단어가 없습니다.')
-        for key in dictionary.keys() :
-          print(f'{key}:{dictionary[key]}')
+          continue
+
+        while True :
+          print('1.오름차순 2.내림차순 3.상위메뉴' )
+          submenu = input('선택 >> ')
+          match submenu :
+            case '1' : # 오름차순
+              sorted_dict = dict(sorted(dictionary.items()))
+              for key in sorted_dict.keys() :
+                print(f'{key}:{sorted_dict[key]}')
+            case '2' : # 내림차순
+              sorted_dict = dict(sorted(dictionary.items(),reverse=True))
+              for key in sorted_dict.keys():
+                print(f'{key}:{sorted_dict[key]}')
+            case '3' | _ :
+                break
       case '6' :  # 통계
-        pass
+        print(f'1.저장된 단어 갯수 : {len(dictionary)}')
+        #longest_word = max(dictionary.keys(), key=lambda k: len(k))
+        longest_word = max(dictionary.keys(), key=len)
+        print(f'2.단어의문자수가 가장 많은 단어 : {longest_word}')
+        sorted_words = sorted(dictionary.keys(), key=len, reverse=True)
+        print(f'3.단어 글자수 내림차순 출력(단어만) : ')
+        for word in sorted_words:
+          print(word)
       case '7' :  # 종료
         dictionary_close(dictionary)
         stop = True
