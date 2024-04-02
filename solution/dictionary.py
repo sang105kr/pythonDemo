@@ -153,5 +153,3 @@ while not stop :
 
   except DictionaryException as e:
     print(e)
-
-
