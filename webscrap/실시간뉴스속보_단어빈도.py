@@ -27,7 +27,7 @@ def preprocess_text(text):
     # 한글과 공백을 제외하고 모두 제거
     text = re.sub(r'[^가-힣\'\`\(]\s','',text)
     # 형태소 분석
-    tokens = okt.morphs(text)4
+    tokens = okt.morphs(text)
     # 불용어 제거 : 형태소 분석된 단어 목록을 가져와서 불용어단어는 제거
     tokens = [ word for word in tokens if word not in stopwords]
     return tokens
