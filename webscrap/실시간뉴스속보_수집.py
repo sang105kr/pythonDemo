@@ -1,29 +1,26 @@
-# %%
-# http요청,응답 수행
+# http 요청,응답 수행
 import requests
 # html문서 파싱 (DOM 요소 다루듯 쉽게 접근하는 기능 제공)
 from bs4 import BeautifulSoup
+import time
 # 정규표현식
 import re
-# 
+
 import pandas as pd
 import matplotlib.pyplot as plt
 
 import pyautogui
-import time
 
-req_page =  int(pyautogui.prompt('몇 페이지를 읽어올까요?'))
-
-# %%
 # 폰트설정
 plt.rc("font", family='Malgun Gothic')
-
 # 마이너스폰트 설정
 plt.rc("axes", unicode_minus=False)
 
+
+req_page =  int(pyautogui.prompt('몇 페이지를 읽어올까요?'))
 df = pd.DataFrame()
-for page in range(1, req_page+1) :
-    # %%
+for page in range(1, req_page+1 ) :
+
     # http요청
     url=(
         f'https://finance.naver.com/news/news_list.naver?'
@@ -36,14 +33,14 @@ for page in range(1, req_page+1) :
     }
     params = {}
     res = requests.get(url,headers=headers, params=params)
+    print(res.status_code)
 
-    # %%
     html = BeautifulSoup(res.text,'html.parser')
 
     # %%
     # 실시간뉴스속보 목록
     news_list = html.select_one('#contentarea_left > ul')
-    type(news_list)
+    print(type(news_list))
 
     # %%
     articleSubject_list = news_list.select('.articleSubject')
@@ -77,16 +74,16 @@ for page in range(1, req_page+1) :
     result_list = list(zipped_lists)
 
     # %%
-    result_list[0:3]
+    print(result_list[0:3])
 
     # %%
-    [ num for num in range(5)]
-    list( num for num in range(5) )
-    tuple( num for num in range(5) )
+    # [ num for num in range(5)]
+    # list( num for num in range(5) )
+    # tuple( num for num in range(5) )
 
     # %%
     # \n \t 제거하기
-    [ tuple(ele.replace('\n','').replace('\t','').strip() for ele in t) for t in result_list ]
+    # [ tuple(ele.replace('\n','').replace('\t','').strip() for ele in t) for t in result_list ]
 
     # %%
     result = [ tuple( re.sub(r'[\t\n]|^\s+|\s+$','',ele)  for ele in t) for t in result_list ]
